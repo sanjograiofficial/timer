@@ -11,8 +11,10 @@ console.log(sec);
 const min = minute.textContent.split("");
 const h = hour.textContent.split("");
 
+let interval;
+
 function countdown() {
-  setInterval(() => {
+  interval = setInterval(() => {
     if (
       hour.textContent == 0 &&
       minute.textContent == 0 &&
@@ -47,4 +49,11 @@ function countdown() {
 startBtn.addEventListener("click", () => {
   countdown();
 });
-stopBtn.addEventListener("click", () => {});
+stopBtn.addEventListener("click", () => {
+  clearInterval(interval);
+});
+resetBtn.addEventListener("click", () => {
+  hour.textContent = `00`;
+  minute.textContent = `00`;
+  second.textContent = `00`;
+});
