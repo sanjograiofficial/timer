@@ -13,17 +13,34 @@ const h = hour.textContent.split("");
 
 function countdown() {
   setInterval(() => {
-    if (sec[1] == -1 && sec[0] == -1) {
-      minute.textContent = `${min[0]}${min[1]--}`;
+    if (
+      hour.textContent == 0 &&
+      minute.textContent == 0 &&
+      second.textContent == 0
+    ) {
+      return;
     }
-    if (sec[1] == -1) {
+    if (minute.textContent == 0 && second.textContent == 0) {
+      hour.textContent = `${h[0]}${--h[1]}`;
+    }
+    if (second.textContent == 0) {
+      minute.textContent = `${min[0]}${--min[1]}`;
+    }
+    if (min[1] == 0) {
+      if (min[0] == 0) {
+        min[0] = 6;
+      }
+      min[0]--;
+      min[1] = 10;
+    }
+    if (sec[1] == 0) {
       if (sec[0] == 0) {
         sec[0] = 6;
       }
       sec[0]--;
-      sec[1] = 9;
+      sec[1] = 10;
     }
-    second.textContent = `${sec[0]}${sec[1]--}`;
+    second.textContent = `${sec[0]}${--sec[1]}`;
   }, 1000);
 }
 
