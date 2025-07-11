@@ -2,12 +2,14 @@ const startBtn = document.querySelector(".start");
 const stopBtn = document.querySelector(".stop");
 const resetBtn = document.querySelector(".reset");
 
+const sec0UpBtn = document.querySelector(".sec0.up");
+const sec1UpBtn = document.querySelector(".sec1.up");
+
 let hour = document.querySelector(".hour");
 let minute = document.querySelector(".minute");
 let second = document.querySelector(".second");
 
 const sec = second.textContent.split("");
-console.log(sec);
 const min = minute.textContent.split("");
 const h = hour.textContent.split("");
 
@@ -56,4 +58,11 @@ resetBtn.addEventListener("click", () => {
   hour.textContent = `00`;
   minute.textContent = `00`;
   second.textContent = `00`;
+});
+
+sec0UpBtn.addEventListener("click", () => {
+  sec[0]++;
+});
+sec1UpBtn.addEventListener("click", () => {
+  sec[1]++;
 });
