@@ -34,6 +34,10 @@ function countdown() {
     if (second.textContent == 0) {
       minute.textContent = `${min[0]}${--min[1]}`;
     }
+    if (h[1] == 0) {
+      h[0]--;
+      h[1] = 10;
+    }
     if (min[1] == 0) {
       if (min[0] == 0) {
         min[0] = 6;
@@ -64,6 +68,7 @@ resetBtn.addEventListener("click", () => {
   second.textContent = `00`;
 });
 h0UpBtn.addEventListener("click", () => {
+  if (hour.textContent == 24) return;
   h[0]++;
   if (h[0] > 2) {
     h[0] = 0;
@@ -71,7 +76,7 @@ h0UpBtn.addEventListener("click", () => {
   hour.textContent = `${h[0]}${h[1]}`;
 });
 h1UpBtn.addEventListener("click", () => {
-  if(hour.textContent == 24) return;
+  if (hour.textContent == 24) return;
   h[1]++;
   if (h[1] > 9) {
     h[1] = 0;
