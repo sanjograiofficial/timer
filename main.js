@@ -2,117 +2,115 @@ const startBtn = document.querySelector(".start");
 const stopBtn = document.querySelector(".stop");
 const resetBtn = document.querySelector(".reset");
 
-const sec0UpBtn = document.querySelector(".sec0.up");
-const sec1UpBtn = document.querySelector(".sec1.up");
-const min0UpBtn = document.querySelector(".min0.up");
-const min1UpBtn = document.querySelector(".min1.up");
-const h0UpBtn = document.querySelector(".hr0.up");
-const h1UpBtn = document.querySelector(".hr1.up");
+const form = document.querySelector(".input");
+const h0Elem = document.querySelector(".h0");
+const h1Elem = document.querySelector(".h1");
+const m0Elem = document.querySelector(".m0");
+const m1Elem = document.querySelector(".m1");
+const s0Elem = document.querySelector(".s0");
+const s1Elem = document.querySelector(".s1");
 
-let hour = document.querySelector(".hour");
-let minute = document.querySelector(".minute");
-let second = document.querySelector(".second");
-
-const sec = second.textContent.split("");
-const min = minute.textContent.split("");
-const h = hour.textContent.split("");
+form.addEventListener("input", (e) => {
+  const target = e.target;
+  if (target.nextElementSibling) {
+    target.nextElementSibling.focus();
+  }
+});
 
 let interval;
-
+function updateDisplay() {
+  h0Elem.value = time.h0;
+  h1Elem.value = time.h1;
+  m0Elem.value = time.m0;
+  m1Elem.value = time.m1;
+  s0Elem.value = time.s0;
+  s1Elem.value = time.s1;
+}
+let time = {
+  h0: 0,
+  h1: 0,
+  m0: 0,
+  m1: 0,
+  s0: 0,
+  s1: 0,
+};
 function countdown() {
+  time = {
+    h0: h0Elem.value,
+    h1: h1Elem.value,
+    m0: m0Elem.value,
+    m1: m1Elem.value,
+    s0: s0Elem.value,
+    s1: s1Elem.value,
+  };
+  const hour = time.h0 * 10 + time.h1;
+  const minute = time.m0 * 10 + time.m1;
+  const second = time.s0 * 10 + time.s1;
+
+  if (hour > 24 || (hour === 24 && (minute > 0 || second > 0))) {
+    alert("Maximum allowed time is 24:00:00");
+    return;
+  }
+
+  clearInterval(interval);
   interval = setInterval(() => {
     if (
-      hour.textContent == 0 &&
-      minute.textContent == 0 &&
-      second.textContent == 0
+      time.h0 === 0 &&
+      time.m0 === 0 &&
+      time.s0 === 0 &&
+      time.h1 === 0 &&
+      time.m1 === 0 &&
+      time.s1 === 0
     ) {
+      clearInterval(interval);
       return;
     }
-    if (minute.textContent == 0 && second.textContent == 0) {
-      hour.textContent = `${h[0]}${--h[1]}`;
+
+    if (time.s1 > 0) {
+      time.s1--;
+      console.log(time.s1);
+    } else if (time.s0 > 0) {
+      time.s1 = 9;
+      time.s0--;
+    } else if (time.m1 > 0) {
+      time.m1--;
+      time.s0 = 5;
+      time.s1 = 9;
+    } else if (time.m0 > 0) {
+      time.m0--;
+      time.m1 = 9;
+      time.s0 = 5;
+      time.s1 = 9;
+    } else if (time.h1 > 0) {
+      time.h1--;
+      time.m0 = 5;
+      time.m1 = 9;
+      time.s0 = 5;
+      time.s1 = 9;
+    } else if (time.h0 > 0) {
+      time.h0--;
+      time.h1 = 9;
+      time.m0 = 5;
+      time.m1 = 9;
+      time.s0 = 5;
+      time.s1 = 9;
     }
-    if (second.textContent == 0) {
-      minute.textContent = `${min[0]}${--min[1]}`;
-    }
-    if (h[1] == 0) {
-      h[0]--;
-      h[1] = 10;
-    }
-    if (min[1] == 0) {
-      if (min[0] == 0) {
-        min[0] = 6;
-      }
-      min[0]--;
-      min[1] = 10;
-    }
-    if (sec[1] == 0) {
-      if (sec[0] == 0) {
-        sec[0] = 6;
-      }
-      sec[0]--;
-      sec[1] = 10;
-    }
-    second.textContent = `${sec[0]}${--sec[1]}`;
+
+    updateDisplay();
   }, 1000);
 }
 
-startBtn.addEventListener("click", () => {
-  countdown();
-});
-stopBtn.addEventListener("click", () => {
-  clearInterval(interval);
-});
+// Button bindings
+startBtn.addEventListener("click", countdown);
+stopBtn.addEventListener("click", () => clearInterval(interval));
 resetBtn.addEventListener("click", () => {
-  hour.textContent = `00`;
-  minute.textContent = `00`;
-  second.textContent = `00`;
+  time = {
+    h0: 0,
+    h1: 0,
+    m0: 0,
+    m1: 0,
+    s0: 0,
+    s1: 0,
+  };
+  updateDisplay();
 });
-h0UpBtn.addEventListener("click", () => {
-  if (hour.textContent == 24) return;
-  h[0]++;
-  if (h[0] > 2) {
-    h[0] = 0;
-  }
-  hour.textContent = `${h[0]}${h[1]}`;
-});
-h1UpBtn.addEventListener("click", () => {
-  if (hour.textContent == 24) return;
-  h[1]++;
-  if (h[1] > 9) {
-    h[1] = 0;
-    h[0]++;
-  }
-  if (h[0] > 2) {
-    h[0] = 0;
-  }
-  hour.textContent = `${h[0]}${h[1]}`;
-});
-
-function inc0Btn(btn, time, timeText) {
-  btn.addEventListener("click", () => {
-    time[0]++;
-    if (time[0] > 5) {
-      time[0] = 0;
-    }
-    timeText.textContent = `${time[0]}${time[1]}`;
-  });
-}
-
-function inc1Btn(btn, time, timeText) {
-  btn.addEventListener("click", () => {
-    time[1]++;
-    if (time[1] > 9) {
-      time[1] = 0;
-      time[0]++;
-    }
-    if (time[0] > 5) {
-      time[0] = 0;
-    }
-    timeText.textContent = `${time[0]}${time[1]}`;
-  });
-}
-inc0Btn(sec0UpBtn, sec, second);
-inc0Btn(min0UpBtn, min, minute);
-
-inc1Btn(sec1UpBtn, sec, second);
-inc1Btn(min1UpBtn, min, minute);
