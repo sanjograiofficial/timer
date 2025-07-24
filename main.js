@@ -16,6 +16,13 @@ form.addEventListener("input", (e) => {
     target.nextElementSibling.focus();
   }
 });
+form.addEventListener("keydown", (e) => {
+  const target = e.target;
+
+  if (e.key === "Backspace" && !target.value && target.previousElementSibling) {
+    target.previousElementSibling.focus();
+  }
+});
 
 let interval;
 function updateDisplay() {
@@ -43,7 +50,7 @@ function countdown() {
     s0: s0Elem.value,
     s1: s1Elem.value,
   };
-  const hour = time.h0 * 10 + time.h1;
+  const hour = parseInt(time.h0 * 10) + parseInt(time.h1);
   const minute = time.m0 * 10 + time.m1;
   const second = time.s0 * 10 + time.s1;
 
@@ -113,4 +120,5 @@ resetBtn.addEventListener("click", () => {
     s1: 0,
   };
   updateDisplay();
+  clearInterval(interval);
 });
