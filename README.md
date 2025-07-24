@@ -11,7 +11,7 @@ A simple and interactive countdown timer built with vanilla JavaScript, HTML, an
 ## 🚀 Getting Started
 
 ### 📁 Project Structure
-.
+.  
 ├── index.html # Main HTML structure  
 ├── style.css # Basic styling for timer UI  
 └── main.js # Timer logic and interactions
